@@ -15,18 +15,44 @@ namespace Notifications.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Notifications.DataAccess.NotificationEntity", b =>
+            modelBuilder.Entity("Notifications.DataAccess.Entities.NotificationEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("AppointmentDateTime");
+
+                    b.Property<int>("EventType");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("OrganisationName");
+
+                    b.Property<string>("Reason");
+
                     b.HasKey("Id");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Notifications.DataAccess.Entities.TemplateEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Body");
+
+                    b.Property<int>("EventType");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Templates");
                 });
 #pragma warning restore 612, 618
         }
