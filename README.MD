@@ -37,8 +37,3 @@ Handle the event:
 
 Create an API to fetch notifications by user id. 
 
-If you have time, add the ability for a user to establish a socket connection that sends new notifications as they're recieved.
-
-Include examples of Unit Tests and Integration tests where possible.
-
-
