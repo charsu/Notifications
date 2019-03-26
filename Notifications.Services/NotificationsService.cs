@@ -4,20 +4,31 @@ using System.Linq;
 using Notifications.Common.Interfaces;
 using Notifications.Common.Models;
 
-namespace Notifications.Services
-{
-    public class NotificationsService : INotificationsService
-    {
-        private readonly INotificationsAccess notificationsAccess;
+namespace Notifications.Services {
+   public class NotificationsService : INotificationsService {
+      private readonly INotificationsAccess _notificationsAccess;
+      private readonly IUserNotificationService _userNotificationService;
 
-        public NotificationsService(INotificationsAccess notificationsAccess)
-        {
-            this.notificationsAccess = notificationsAccess;
-        }
+      public NotificationsService(INotificationsAccess notificationsAccess,
+         IUserNotificationService userNotificationService) {
 
-        public IReadOnlyCollection<NotificationModel> GetAllNotifications()
-        {
-            return this.notificationsAccess.GetAllNotifications().ToList();
-        }
-    }
+         _notificationsAccess = notificationsAccess;
+         _userNotificationService = userNotificationService;
+      }
+
+      public IReadOnlyCollection<NotificationModel> GetAllNotifications()
+         => _notificationsAccess.GetAllNotifications().ToList();
+
+      public NotificationModel AddNotification(NotificationModel notificationModel) {
+         // store it as it is 
+         _notificationsAccess.AddNotification(notificationModel);
+
+         // try to save the user's copy 
+         var usrNotification = _userNotificationService.AddNotification(notificationModel);
+
+         // try to broadcast it to the user
+
+         return notificationModel;
+      }
+   }
 }

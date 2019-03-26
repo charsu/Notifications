@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Notifications.DataAccess;
 
 namespace Notifications.DataAccess.Migrations
 {
     [DbContext(typeof(NotificationsDbContext))]
-    partial class NotificationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190326181650_AddUserNotification")]
+    partial class AddUserNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,29 +61,11 @@ namespace Notifications.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9e930a6f-6b49-45fd-a294-3fee641a98df"),
+                            Id = new Guid("79bb527c-87b7-47df-9cdf-9eca453c8020"),
                             Body = "Hi {Firstname}, your appointment with {OrganisationName} at {AppointmentDateTime} has been - cancelled for the following reason: {Reason}.",
                             EventType = 1,
                             Title = "Appointment Cancelled"
                         });
-                });
-
-            modelBuilder.Entity("Notifications.DataAccess.Entities.UserNotificationEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Body");
-
-                    b.Property<int>("EventType");
-
-                    b.Property<string>("Title");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserNotifications");
                 });
 #pragma warning restore 612, 618
         }

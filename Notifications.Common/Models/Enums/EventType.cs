@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Notifications.DataAccess.Entities.Enums {
+namespace Notifications.Common.Models.Enums {
    public enum EventType {
       Unknown,
       AppointmentCancelled

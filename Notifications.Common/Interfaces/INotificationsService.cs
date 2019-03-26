@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Notifications.Common.Models;
 
-namespace Notifications.Common.Interfaces
-{
-    public interface INotificationsService
-    {
-        IReadOnlyCollection<NotificationModel> GetAllNotifications();
-    }
+namespace Notifications.Common.Interfaces {
+   public interface INotificationsService {
+      IReadOnlyCollection<NotificationModel> GetAllNotifications();
+      NotificationModel AddNotification(NotificationModel notificationModel);
+   }
 }
