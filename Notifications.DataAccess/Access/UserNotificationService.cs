@@ -15,6 +15,13 @@ namespace Notifications.DataAccess.Access {
          _dbContext = dbContext;
       }
 
+      public IReadOnlyCollection<UserNotification> NotificationsForUser(int userId)
+         => _dbContext.Set<UserNotificationEntity>()
+               .Where(x => x.UserId == userId)
+               .Select(e => Map<UserNotificationEntity, UserNotification>(e))
+               .ToList()
+               .AsReadOnly();
+
       public UserNotification AddNotification(NotificationModel notificationModel) {
          // todo add coherent error handling 
          var notificationType = notificationModel.Type;

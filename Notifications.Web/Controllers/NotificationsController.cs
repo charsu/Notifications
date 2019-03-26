@@ -12,15 +12,23 @@ namespace NotificationsWeb.Controllers {
    [ApiController]
    public class NotificationsController : ControllerBase {
       private readonly INotificationsService _notificationsService;
+      private readonly IUserNotificationService _userNotificationservice;
 
-      public NotificationsController(INotificationsService notificationsService) {
-         this._notificationsService = notificationsService;
+      public NotificationsController(INotificationsService notificationsService, IUserNotificationService userNotificationService) {
+         _notificationsService = notificationsService;
+         _userNotificationservice = userNotificationService;
       }
 
       [Route("")]
       [HttpGet]
       public IReadOnlyCollection<NotificationModel> Get() {
          return _notificationsService.GetAllNotifications();
+      }
+
+      [Route("{userId}")]
+      [HttpGet]
+      public IReadOnlyCollection<UserNotification> GetFroUser(int userId) {
+         return _userNotificationservice.NotificationsForUser(userId);
       }
 
       [Route(""), HttpPost]

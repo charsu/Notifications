@@ -6,5 +6,6 @@ using Notifications.Common.Models;
 namespace Notifications.Common.Interfaces {
    public interface IUserNotificationService {
       UserNotification AddNotification(NotificationModel notificationModel);
+      IReadOnlyCollection<UserNotification> NotificationsForUser(int userId);
    }
 }
