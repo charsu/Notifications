@@ -3,6 +3,12 @@ import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import * as Notifications from './Notifications';
 
+const signalR = require("@aspnet/signalr");
+
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/notificationsHub")
+    .build();
+
 export default function configureStore(history, initialState) {
     const reducers = {
         notifications: Notifications.reducer
@@ -25,9 +31,24 @@ export default function configureStore(history, initialState) {
         routing: routerReducer
     });
 
-    return createStore(
+    var store = createStore(
         rootReducer,
         initialState,
         compose(applyMiddleware(...middleware), ...enhancers)
     );
+
+    signalRRegisterCommands(store);
+    return store;
+}
+
+
+export function signalRRegisterCommands(store) {
+    connection.on('BroadcastNotification', function (userId, userNotification) {
+        store.dispatch({
+            type: 'ADD_USER_NOTIFICATIONS',
+            payload: { userId, userNotification }
+        })
+    });
+
+    connection.start();
 }

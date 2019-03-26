@@ -10,6 +10,8 @@ using Notifications.Common.Interfaces;
 using Notifications.DataAccess;
 using Notifications.DataAccess.Access;
 using Notifications.Services;
+using Notifications.Web.Core;
+using Notifications.Web.Hubs;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace NotificationsWeb {
@@ -23,6 +25,7 @@ namespace NotificationsWeb {
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services) {
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+         services.AddSignalR();
 
          // In production, the React files will be served from this directory
          services.AddSpaStaticFiles(configuration => {
@@ -42,6 +45,7 @@ namespace NotificationsWeb {
          services.AddTransient<INotificationsAccess, NotificationsAccess>();
          services.AddTransient<INotificationsService, NotificationsService>();
          services.AddTransient<IUserNotificationService, UserNotificationService>();
+         services.AddTransient<INotificationBroadcast, NotificationBroadcastService>();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +53,10 @@ namespace NotificationsWeb {
          app.UseSwagger();
          app.UseSwaggerUI(c => {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+         });
+
+         app.UseSignalR(routes => {
+            routes.MapHub<SignalRNotifications>("/notificationsHub");
          });
 
          if (env.IsDevelopment()) {
