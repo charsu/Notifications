@@ -1,5 +1,6 @@
 const requestNotificationsType = 'REQUEST_USER_NOTIFICATIONS';
 const receiveNotificationsType = 'RECEIVE_USER_NOTIFICATIONS';
+const addNotificationsType = 'ADD_USER_NOTIFICATIONS';
 const initialState = { userId: 1, isLoading: false };
 
 export const actionCreators = {
@@ -33,6 +34,16 @@ export const reducer = (state, action) => {
         return {
             ...state,
             notifications: action.notifications,
+            isLoading: false
+        };
+    }
+
+    if (action.type === addNotificationsType) {
+        const { notifications = [] } = state;
+
+        return {
+            ...state,
+            notifications: [...notifications, action.payload.userNotification],
             isLoading: false
         };
     }

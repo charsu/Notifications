@@ -8,12 +8,16 @@ namespace Notifications.Services {
    public class NotificationsService : INotificationsService {
       private readonly INotificationsAccess _notificationsAccess;
       private readonly IUserNotificationService _userNotificationService;
+      private readonly INotificationBroadcast _notificationBroadcast;
 
       public NotificationsService(INotificationsAccess notificationsAccess,
-         IUserNotificationService userNotificationService) {
+         IUserNotificationService userNotificationService,
+         INotificationBroadcast notificationBroadcast
+         ) {
 
          _notificationsAccess = notificationsAccess;
          _userNotificationService = userNotificationService;
+         _notificationBroadcast = notificationBroadcast;
       }
 
       public IReadOnlyCollection<NotificationModel> GetAllNotifications()
@@ -27,6 +31,7 @@ namespace Notifications.Services {
          var usrNotification = _userNotificationService.AddNotification(notificationModel);
 
          // try to broadcast it to the user
+         _notificationBroadcast.BroadcastNotification(usrNotification.UserId, usrNotification);
 
          return notificationModel;
       }
