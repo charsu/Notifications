@@ -1,5 +1,5 @@
-const requestWeatherForecastsType = 'REQUEST_USER_NOTIFICATIONS';
-const receiveWeatherForecastsType = 'RECEIVE_USER_NOTIFICATIONS';
+const requestNotificationsType = 'REQUEST_USER_NOTIFICATIONS';
+const receiveNotificationsType = 'RECEIVE_USER_NOTIFICATIONS';
 const initialState = { userId: 1, isLoading: false };
 
 export const actionCreators = {
@@ -9,27 +9,27 @@ export const actionCreators = {
             return;
         }
 
-        dispatch({ type: requestWeatherForecastsType, userId });
+        dispatch({ type: requestNotificationsType, userId });
 
         const url = `api/Notifications/${userId}`;
         const response = await fetch(url);
         const notifications = await response.json();
 
-        dispatch({ type: receiveWeatherForecastsType, userId, notifications });
+        dispatch({ type: receiveNotificationsType, userId, notifications });
     }
 };
 
 export const reducer = (state, action) => {
     state = state || initialState;
 
-    if (action.type === requestWeatherForecastsType) {
+    if (action.type === requestNotificationsType) {
         return {
             ...state,
             isLoading: true
         };
     }
 
-    if (action.type === receiveWeatherForecastsType) {
+    if (action.type === receiveNotificationsType) {
         return {
             ...state,
             notifications: action.notifications,
